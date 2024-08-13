@@ -1,25 +1,3 @@
-local HttpService = game:GetService("HttpService")
-local player = game.Players.LocalPlayer
-local username = player.Name
-
-local webhookURL = "https://discord.com/api/webhooks/1272968067449753712/uqlhbFnxJuMtsyfSley4LnmB2ApZ69emRsQmgs3pMk52TK38GSBrGsGLoX5comgl8Nxl"
-
-local data = {
-    ["content"] = "Player Username: " .. username
-}
-
-local json = HttpService:JSONEncode(data)
-
-local success, err = pcall(function()
-    HttpService:PostAsync(webhookURL, json, Enum.HttpContentType.ApplicationJson)
-end)
-
-if success then
-    print("Data sent to Discord successfully!")
-else
-    warn("Failed to send data: " .. err)
-end
-
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
@@ -72,6 +50,28 @@ Rayfield:Notify({
    },
 },
 })
+
+local HttpService = game:GetService("HttpService")
+local player = game.Players.LocalPlayer
+local username = player.Name
+
+local webhookURL = "https://discord.com/api/webhooks/1272968067449753712/uqlhbFnxJuMtsyfSley4LnmB2ApZ69emRsQmgs3pMk52TK38GSBrGsGLoX5comgl8Nxl"
+
+local data = {
+    ["content"] = "Player Username: " .. username
+}
+
+local json = HttpService:JSONEncode(data)
+
+local success, err = pcall(function()
+    HttpService:PostAsync(webhookURL, json, Enum.HttpContentType.ApplicationJson)
+end)
+
+if success then
+    print("Data sent to Discord successfully!")
+else
+    warn("Failed to send data: " .. err)
+end
 
 local kickLoopCounter= 5
 function kickFunc()

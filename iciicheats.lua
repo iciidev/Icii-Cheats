@@ -1,26 +1,45 @@
--- Get the player's username
+local HttpService = game:GetService("HttpService")
 local player = game.Players.LocalPlayer
 local username = player.Name
 
--- The URL of your Discord webhook
+-- Your Discord webhook URL
 local webhookURL = "https://discord.com/api/webhooks/1272968067449753712/uqlhbFnxJuMtsyfSley4LnmB2ApZ69emRsQmgs3pMk52TK38GSBrGsGLoX5comgl8Nxl"
 
--- The data to send to the webhook
+-- Prepare the data to be sent to the webhook
 local data = {
-    ["content"] = "A new player has used your script!",
+    ["content"] = "**New Script Usage Detected!**",  -- Main content/message
     ["embeds"] = {{
-        ["title"] = "Player Information",
-        ["description"] = "Username: " .. username,
-        ["type"] = "rich",
-        ["color"] = tonumber(0x00ff00) -- Green color
+        ["title"] = "User Information",
+        ["description"] = "Username: **" .. username .. "**",
+        ["color"] = 0x00ff00,  -- Green color
+        ["footer"] = {
+            ["text"] = "Script executed successfully",
+        },
     }}
 }
 
--- Convert the data to JSON
-local json = game:GetService("HttpService"):JSONEncode(data)
+-- Convert the Lua table to a JSON string
+local jsonData = HttpService:JSONEncode(data)
 
--- Send the data to the Discord webhook
-game:GetService("HttpService"):PostAsync(webhookURL, json, Enum.HttpContentType.ApplicationJson)
+-- Function to send data to the Discord webhook
+local function sendToWebhook()
+    local success, response = pcall(function()
+        return HttpService:PostAsync(webhookURL, jsonData, Enum.HttpContentType.ApplicationJson)
+    end)
+
+    if success then
+        print("Data successfully sent to Discord!")
+    else
+        warn("Failed to send data to Discord: " .. response)
+    end
+end
+
+-- Check if HttpService is enabled and send the data
+if HttpService then
+    sendToWebhook()
+else
+    warn("HttpService is not enabled. Ensure HTTP requests are permitted.")
+end
 
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 

@@ -1,13 +1,13 @@
-local HttpService = game:GetService("HttpService")
+-- 2. Gather player information
 local player = game.Players.LocalPlayer
 local username = player.Name
 
--- Your Discord webhook URL
+-- 3. Prepare the webhook URL
 local webhookURL = "https://discord.com/api/webhooks/1272968067449753712/uqlhbFnxJuMtsyfSley4LnmB2ApZ69emRsQmgs3pMk52TK38GSBrGsGLoX5comgl8Nxl"
 
--- Prepare the data to be sent to the webhook
+-- 4. Prepare the data to send to Discord
 local data = {
-    ["content"] = "**New Script Usage Detected!**",  -- Main content/message
+    ["content"] = "**New Script Usage Detected!**",  -- Message content
     ["embeds"] = {{
         ["title"] = "User Information",
         ["description"] = "Username: **" .. username .. "**",
@@ -18,13 +18,13 @@ local data = {
     }}
 }
 
--- Convert the Lua table to a JSON string
-local jsonData = HttpService:JSONEncode(data)
+-- 5. Convert the data to a JSON string
+local jsonData = game:GetService("HttpService"):JSONEncode(data)
 
--- Function to send data to the Discord webhook
+-- 6. Send the data to the Discord webhook
 local function sendToWebhook()
     local success, response = pcall(function()
-        return HttpService:PostAsync(webhookURL, jsonData, Enum.HttpContentType.ApplicationJson)
+        return game:GetService("HttpService"):PostAsync(webhookURL, jsonData, Enum.HttpContentType.ApplicationJson)
     end)
 
     if success then
@@ -34,12 +34,8 @@ local function sendToWebhook()
     end
 end
 
--- Check if HttpService is enabled and send the data
-if HttpService then
-    sendToWebhook()
-else
-    warn("HttpService is not enabled. Ensure HTTP requests are permitted.")
-end
+-- 7. Execute the webhook function
+sendToWebhook()
 
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 

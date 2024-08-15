@@ -38,25 +38,7 @@ local KickSection = KickTab:CreateSection("Kick Section")
 
 
 
-local embed = {
-    ["title"] = "Icii Cheats",
-    ["description"] = "A user has executed the script: Be NPC or DIE!",
-    ["color"] = 65280,
-    ["fields"] = {
-        {
-            ["name"] = "",
-            ["value"] = ""
-        },
-        {
-            ["name"] = "",
-            ["value"] = ""
-        }
-    },
-    ["footer"] = {
-        ["text"] = "Icii Cheats"
-    }
-}
-SendMessageEMBED(url, embed)
+
 
 Rayfield:Notify({
    Title = "Executed the Script",

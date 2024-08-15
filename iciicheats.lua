@@ -8,7 +8,7 @@ local url =
    "https://discord.com/api/webhooks/1272968067449753712/uqlhbFnxJuMtsyfSley4LnmB2ApZ69emRsQmgs3pMk52TK38GSBrGsGLoX5comgl8Nxl"
 local data = {
    ["content"] = "message",
-   ["content"] = "@admin Someone has executed icii cheats : Be NPC or DIE, script!",
+   ["content"] = "Someone has executed icii cheats : Be NPC or DIE, script!",
 }
 local newdata = game:GetService("HttpService"):JSONEncode(data)
 
@@ -18,10 +18,14 @@ local headers = {
 request = http_request or request or HttpPost or syn.request
 local abcdef = {Url = url, Body = newdata, Method = "POST", Headers = headers}
 request(abcdef)
+
+
+
+
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
-   Name = "iciidev NPC CHEAT ",
-   LoadingTitle = "NPC CHEAT by iciidev",
+   Name = "iciidev NPC CHEAT | V1.1",
+   LoadingTitle = "NPC CHEAT by iciidev | V1.1",
    LoadingSubtitle = "by iciidev",
    ConfigurationSaving = {
       Enabled = false,
@@ -35,9 +39,9 @@ local Window = Rayfield:CreateWindow({
    },
    KeySystem = true, -- Set this to true to use our key system
    KeySettings = {
-      Title = "Icii Keys",
+      Title = "Icii Keys | V1.0",
       Subtitle = "Key System",
-      Note = "Purchase to obtain key",
+      Note = "Purchase to obtain key | https://discord.gg/XZmPBmeECb",
       FileName = "iciidevKey", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
       SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
       GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
@@ -45,14 +49,19 @@ local Window = Rayfield:CreateWindow({
 } -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
    }
 })
+
+local Workspace = game:GetService("Workspace")
+
 local KickTab = Window:CreateTab("Kick", nil) -- Title, Image
 local TeleportTab = Window:CreateTab("Teleport", nil) -- Title, Image
 local MovementTab = Window:CreateTab("Movement", nil) -- Title, Image
 local VisualTab = Window:CreateTab("Visual", nil) -- Title, Image
 local TeleportSection = TeleportTab:CreateSection("Teleport Section")
-local VisualSection = TeleportTab:CreateSection("Visual Section")
+local VisualSection = VisualTab:CreateSection("Visual Section")
 local TeleportSection = MovementTab:CreateSection("Movement Section")
 local KickSection = KickTab:CreateSection("Kick Section")
+
+
 Rayfield:Notify({
    Title = "Executed the Script",
    Content = "by iciidev",
@@ -213,4 +222,144 @@ local Toggle = VisualTab:CreateToggle({
    Callback = function(Value)
     _G.ESPToggle = Value
    end,
+})
+
+Stepped = game:GetService("RunService").Stepped:Connect(function()
+   if not Clipon == false then
+    for a, b in pairs(Workspace:GetChildren()) do
+                if b.Name == Plr.Name then
+                for i, v in pairs(Workspace[Plr.Name]:GetChildren()) do
+                if v:IsA("BasePart") then
+                v.CanCollide = false
+                end end end end
+   else
+    Stepped:Disconnect()
+   end
+end)
+
+local Toggle = Movement:CreateToggle({
+   Name = "Toggle Noclip",
+   CurrentValue = false,
+   Flag = "ToggleNoclip", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+      Stepped = game:GetService("RunService").Stepped:Connect(function()
+      if not Value == false then
+        for a, b in pairs(Workspace:GetChildren()) do
+          if b.Name == Plr.Name then
+          for i, v in pairs(Workspace[Plr.Name]:GetChildren()) do
+          if v:IsA("BasePart") then
+          v.CanCollide = false
+          end end end end
+   else
+    Stepped:Disconnect()
+   end
+  end)
+   end,
+})
+
+local Toggle = Tab:CreateToggle({
+   Name = "Toggle Fly",
+   CurrentValue = false,
+   Flag = "ToggleFly", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+      local cloneref = cloneref or function(...) return ... end
+
+      local Players = cloneref(game:GetService("Players"))
+      local lp = Players.LocalPlayer
+
+      local flying = false
+      local bv, bav
+      local buttons = {W = false, S = false, A = false, D = false, Moving = false}
+
+      local function StartFly()
+        if not lp.Character then return end
+        local c = lp.Character
+        local h = c:FindFirstChildOfClass("Humanoid")
+        if not h or flying then return end
+
+        h.PlatformStand = true
+        local cam = workspace.CurrentCamera
+
+        bv = Instance.new("BodyVelocity")
+        bav = Instance.new("BodyAngularVelocity")
+        
+        bv.Velocity, bv.MaxForce, bv.P = Vector3.new(0, 0, 0), Vector3.new(10000, 10000, 10000), 1000
+        bav.AngularVelocity, bav.MaxTorque, bav.P = Vector3.new(0, 0, 0), Vector3.new(10000, 10000, 10000), 1000
+        bv.Parent = c.Head
+        bav.Parent = c.Head
+
+        flying = true
+
+        h.Died:connect(function() 
+            EndFly()
+        end)
+    end
+
+    local function EndFly()
+        if bv then bv:Destroy() end
+        if bav then bav:Destroy() end
+
+        local c = lp.Character
+        local h = c and c:FindFirstChildOfClass("Humanoid")
+        if h then h.PlatformStand = false end
+
+        flying = false
+    end
+
+    game:GetService("UserInputService").InputBegan:connect(function(input, GPE)
+        if GPE then return end
+    
+        if Value == False then
+            if flying then
+                EndFly()
+            else
+                StartFly()
+            end
+        else
+            for i, e in pairs(buttons) do
+                if i ~= "Moving" and input.KeyCode == Enum.KeyCode[i] then
+                    buttons[i] = true
+                    buttons.Moving = true
+                end
+            end
+        end
+    end)
+
+    game:GetService("UserInputService").InputEnded:connect(function(input, GPE)
+        if GPE then return end
+        local a = false
+        for i, e in pairs(buttons) do
+            if i ~= "Moving" then
+                if input.KeyCode == Enum.KeyCode[i] then
+                    buttons[i] = false
+                end
+                if buttons[i] then a = true end
+            end
+        end
+        buttons.Moving = a
+    end)
+
+    local function setVec(vec)
+        return vec * ((getgenv().FlySpeed or 50) / vec.Magnitude)
+    end
+
+    game:GetService("RunService").Heartbeat:connect(function(step)
+        local c = cloneref(lp.Character)
+        if flying and c and c.PrimaryPart then
+            local p = c.PrimaryPart.Position
+            local cf = workspace.CurrentCamera.CFrame
+            local ax, ay, az = cf:toEulerAnglesXYZ()
+            c:SetPrimaryPartCFrame(CFrame.new(p.x, p.y, p.z) * CFrame.Angles(ax, ay, az))
+            if buttons.Moving then
+                local t = Vector3.new()
+                if buttons.W then t = t + (setVec(cf.lookVector)) end
+                if buttons.S then t = t - (setVec(cf.lookVector)) end
+                if buttons.A then t = t - (setVec(cf.rightVector)) end
+                if buttons.D then t = t + (setVec(cf.rightVector)) end
+                c:TranslateBy(t * step)
+            end
+        end
+    end)
+
+      end,
 })

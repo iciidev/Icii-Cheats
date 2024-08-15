@@ -237,7 +237,7 @@ Stepped = game:GetService("RunService").Stepped:Connect(function()
    end
 end)
 
-local Toggle = Movement:CreateToggle({
+local Toggle = MovementTab:CreateToggle({
    Name = "Toggle Noclip",
    CurrentValue = false,
    Flag = "ToggleNoclip", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
@@ -257,7 +257,7 @@ local Toggle = Movement:CreateToggle({
    end,
 })
 
-local Toggle = Tab:CreateToggle({
+local Toggle = MovementTab:CreateToggle({
    Name = "Toggle Fly",
    CurrentValue = false,
    Flag = "ToggleFly", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps

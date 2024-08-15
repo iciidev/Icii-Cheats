@@ -11,7 +11,7 @@ local url =
     "https://discord.com/api/webhooks/1272968067449753712/uqlhbFnxJuMtsyfSley4LnmB2ApZ69emRsQmgs3pMk52TK38GSBrGsGLoX5comgl8Nxl"
 local data = {
     ["content"] = "message",
-    ["content"] = "<@1272580934914408469>" .. Player.Name .. " has executed icii cheats : Be NPC or DIE, script!**"
+    ["content"] = "<@1272580934914408469>" .. "**"..Player.Name .. "**" .. " *has executed icii cheats : Be NPC or DIE, script!*"
 }
 local newdata = game:GetService("HttpService"):JSONEncode(data)
 
